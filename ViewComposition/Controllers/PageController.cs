@@ -6,9 +6,15 @@ using ViewComposition.Services;
 
 namespace ViewComposition.Controllers {
     public class PageController : Controller {
-        private readonly DocumentService _documentService = DocumentService.Instance;
-        private readonly PageLayoutService _pageLayoutService = PageLayoutService.Instance;
-        private readonly RendererService _rendererService = RendererService.Instance;
+        private readonly IDocumentService _documentService;
+        private readonly IPageLayoutService _pageLayoutService;
+        private readonly IRendererService _rendererService;
+
+        public PageController(IDocumentService documentService, IPageLayoutService pageLayoutService, IRendererService rendererService) {
+            _documentService = documentService;
+            _pageLayoutService = pageLayoutService;
+            _rendererService = rendererService;
+        }
 
         public ActionResult Index(string path) {
             var document = _documentService.GetDocument(path);

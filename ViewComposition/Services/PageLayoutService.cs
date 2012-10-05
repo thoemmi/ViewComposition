@@ -1,15 +1,11 @@
 ﻿using ViewComposition.Entities;
 
 namespace ViewComposition.Services {
-    public class PageLayoutService {
-        private static PageLayoutService _instance;
+    public interface IPageLayoutService {
+        PageLayout GetLayout(Document document);
+    }
 
-        public static PageLayoutService Instance {
-            get { return _instance ?? (_instance = new PageLayoutService()); }
-        }
-
-        private PageLayoutService() {}
-
+    public class PageLayoutService : IPageLayoutService {
         public PageLayout GetLayout(Document document) {
             var bodyPart = new PagePart { Name = "Body", Renderer = "Body" };
             var mainSection = new PageSection { Name = "Main" };
