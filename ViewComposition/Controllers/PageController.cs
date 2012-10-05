@@ -4,10 +4,13 @@ using ViewComposition.Services;
 
 namespace ViewComposition.Controllers {
     public class PageController : Controller {
-        public ActionResult Index(string path) {
-            var document = DocumentService.Instance.GetDocument(path);
+        private readonly DocumentService _documentService = DocumentService.Instance;
+        private readonly PageLayoutService _pageLayoutService = PageLayoutService.Instance;
 
-            var layout = PageLayoutService.Instance.GetLayout(document);
+        public ActionResult Index(string path) {
+            var document = _documentService.GetDocument(path);
+
+            var layout = _pageLayoutService.GetLayout(document);
 
             var pageModel = new PageModel {
                 Title = document.Title
