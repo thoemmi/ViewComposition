@@ -7,15 +7,19 @@
 <h2>@Model.Title</h2>
 
 
+<div style="float:left">
 <h3>Main</h3>
 
 @foreach(var info in Model.Sections["Main"]) {
     @Html.Partial(info.PartialViewName, info.Model)
 }
+</div>
 
 
+<div style="float:right">
 <h3>Sidebar</h3>
 
 @foreach(var info in Model.Sections["sidebar"]) {
     @Html.Partial(info.PartialViewName, info.Model)
 }
+</div>
