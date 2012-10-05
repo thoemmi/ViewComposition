@@ -1,0 +1,8 @@
+*.user
+*.suo
+*.sln.docstates
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+_ReSharper*/
+packages/
