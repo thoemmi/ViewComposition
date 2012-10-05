@@ -5,10 +5,12 @@ using ViewComposition.Services;
 namespace ViewComposition.Controllers {
     public class PageController : Controller {
         public ActionResult Index(string path) {
-            var page = DocumentService.Instance.GetDocument(path);
+            var document = DocumentService.Instance.GetDocument(path);
+
+            var layout = PageLayoutService.Instance.GetLayout(document);
 
             var pageModel = new PageModel {
-                Title = page.Title
+                Title = document.Title
             };
             return View(pageModel);
         }
