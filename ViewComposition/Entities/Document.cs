@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 namespace ViewComposition.Entities {
-    public class Page {
+    public class Document {
         public string Title { get; set; }
     }
 }
