@@ -6,5 +6,6 @@ using System.Web;
 namespace ViewComposition.Entities {
     public class Document {
         public string Title { get; set; }
+        public string Body { get; set; }
     }
 }

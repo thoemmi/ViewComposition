@@ -13,7 +13,8 @@ namespace ViewComposition.Services {
 
         public Document GetDocument(string path) {
             return new Document {
-                Title = "Demo Document"
+                Title = "Demo Document",
+                Body = "Hello world"
             };
         }
     }

@@ -11,11 +11,11 @@ namespace ViewComposition.Services {
         private PageLayoutService() {}
 
         public PageLayout GetLayout(Document document) {
-            var bodyPart = new PagePart { Name = "Body" };
+            var bodyPart = new PagePart { Name = "Body", Renderer = "Body" };
             var mainSection = new PageSection { Name = "Main" };
             mainSection.Parts.Add(bodyPart);
 
-            var twitterPart = new PagePart() { Name = "Twitter" };
+            var twitterPart = new PagePart() { Name = "Twitter", Renderer = "Twitter" };
             var sidebarSection = new PageSection { Name = "Sidebar" };
             sidebarSection.Parts.Add(twitterPart);
 
