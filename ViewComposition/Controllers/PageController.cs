@@ -1,11 +1,14 @@
 ﻿using System.Web.Mvc;
 using ViewComposition.Models;
+using ViewComposition.Services;
 
 namespace ViewComposition.Controllers {
     public class PageController : Controller {
         public ActionResult Index(string path) {
+            var page = PageService.Instance.GetPage(path);
+
             var pageModel = new PageModel {
-                Title = "Demo page"
+                Title = page.Title
             };
             return View(pageModel);
         }
