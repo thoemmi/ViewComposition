@@ -25,8 +25,9 @@ namespace ViewComposition.App_Start {
     public static class StructuremapMvc {
         public static void Start() {
 			var container = IoC.Initialize();
-            DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver = new StructureMapDependencyResolver(container);
+            var resolver = new StructureMapDependencyResolver(container);
+            DependencyResolver.SetResolver(resolver);
+            GlobalConfiguration.Configuration.DependencyResolver = resolver;
         }
     }
 }
