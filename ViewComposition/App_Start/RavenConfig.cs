@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Raven.Client;
+using Raven.Client.Document;
 using Raven.Client.Linq;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
@@ -16,10 +17,14 @@ namespace ViewComposition.App_Start {
                 return;
             }
 
-            _documentStore = new EmbeddableDocumentStore {
-                DataDirectory = "App_Data",
-                UseEmbeddedHttpServer = true
-            }.Initialize();
+            //_documentStore = new EmbeddableDocumentStore {
+            //    DataDirectory = "App_Data",
+            //    UseEmbeddedHttpServer = true
+            //};
+            _documentStore = new DocumentStore {
+                Url = "http://localhost:8080",
+            };
+            _documentStore.Initialize();
 
             IndexCreation.CreateIndexes(typeof (RavenConfig).Assembly, _documentStore);
 
