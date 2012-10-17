@@ -154,10 +154,13 @@
     <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
     <Compile Include="Entities\Document.cs" />
+    <Compile Include="Entities\IDocument.cs" />
     <Compile Include="Entities\PageLayout.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\DocumentStoreListener.cs" />
+    <Compile Include="Infrastructure\Documents_ByPath.cs" />
     <Compile Include="Models\PageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\BodyRenderer.cs" />

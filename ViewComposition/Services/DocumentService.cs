@@ -3,10 +3,11 @@ using System.Linq;
 using Raven.Client;
 using Raven.Client.Linq;
 using ViewComposition.Entities;
+using ViewComposition.Infrastructure;
 
 namespace ViewComposition.Services {
     public interface IDocumentService {
-        Document GetDocument(string path);
+        IDocument GetDocument(string path);
     }
 
     public class DocumentService : IDocumentService {
@@ -16,8 +17,8 @@ namespace ViewComposition.Services {
             _documentSession = documentSession;
         }
 
-        public Document GetDocument(string path) {
-            var query = _documentSession.Query<Document>();
+        public IDocument GetDocument(string path) {
+            var query = _documentSession.Query<IDocument, Documents_ByPath>();
             if (!String.IsNullOrEmpty(path)) {
                 var pathParts = path.Split('/');
                 for (var i = 1; i <= pathParts.Length; ++i) {

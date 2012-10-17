@@ -38,7 +38,7 @@ namespace ViewComposition.DependencyResolution {
             Container.Dispose();
         }
 
-        public object GetService(Type serviceType) {
+        public override object GetService(Type serviceType) {
             if (serviceType == null) {
                 return null;
             }

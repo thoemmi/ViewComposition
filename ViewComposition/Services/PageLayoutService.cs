@@ -2,11 +2,11 @@
 
 namespace ViewComposition.Services {
     public interface IPageLayoutService {
-        PageLayout GetLayout(Document document);
+        PageLayout GetLayout(IDocument document);
     }
 
     public class PageLayoutService : IPageLayoutService {
-        public PageLayout GetLayout(Document document) {
+        public PageLayout GetLayout(IDocument document) {
             var bodyPart = new PagePart { Name = "Body", Renderer = "Body" };
             var mainSection = new PageSection { Name = "Main" };
             mainSection.Parts.Add(bodyPart);

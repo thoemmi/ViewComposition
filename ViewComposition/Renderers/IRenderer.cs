@@ -4,6 +4,6 @@ using ViewComposition.Entities;
 namespace ViewComposition.Renderers {
     [PluginFamily]
     public interface IRenderer {
-        RenderInfo Render(Document document);
+        RenderInfo Render(IDocument document);
     }
 }
