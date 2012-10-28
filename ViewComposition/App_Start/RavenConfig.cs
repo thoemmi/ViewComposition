@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Raven.Client;
-using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using Raven.Client.MvcIntegration;
@@ -49,15 +48,15 @@ namespace ViewComposition.App_Start {
                         Body = "This is about this site."
                     });
 
-                    var blocDoc = new Document {
+                    var blogDoc = new Document {
                         ParentId = rootDoc.Id,
                         Slug = "blog",
                         Title = "Blog",
                         Body = "This is my blog."
                     };
-                    session.Store(blocDoc);
+                    session.Store(blogDoc);
                     session.Store(new Document {
-                        ParentId = blocDoc.Id,
+                        ParentId = blogDoc.Id,
                         Slug = "First",
                         Title = "my first blog post",
                         Body = "Hooray"
