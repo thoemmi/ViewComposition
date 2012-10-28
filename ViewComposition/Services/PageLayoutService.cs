@@ -12,8 +12,10 @@ namespace ViewComposition.Services {
             mainSection.Parts.Add(bodyPart);
 
             var twitterPart = new PagePart() { Name = "Twitter", Renderer = "Twitter" };
+            var archivePart = new PagePart() { Name = "Archive", Renderer = "Archive" };
             var sidebarSection = new PageSection { Name = "Sidebar" };
             sidebarSection.Parts.Add(twitterPart);
+            sidebarSection.Parts.Add(archivePart);
 
             var layout = new PageLayout { Name = "BaseDocumentLayout" };
             layout.Sections.Add(mainSection);

@@ -204,8 +204,10 @@
     </Compile>
     <Compile Include="Infrastructure\DocumentStoreListener.cs" />
     <Compile Include="Infrastructure\Documents_ByPath.cs" />
+    <Compile Include="Models\ArchiveViewModel.cs" />
     <Compile Include="Models\PageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\ArchiveRenderer.cs" />
     <Compile Include="Renderers\BodyRenderer.cs" />
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Renderers\RenderInfo.cs" />
@@ -305,6 +307,7 @@
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Shared\Body.cshtml" />
     <Content Include="Views\Shared\Twitter.cshtml" />
+    <Content Include="Views\Shared\Archive.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
