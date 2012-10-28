@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ViewComposition.Models {
     public class ArchiveViewModel {
+        public string BasePath { get; set; }
         public List<MonthStatistics> MonthStatistics { get; set; }
     }
 

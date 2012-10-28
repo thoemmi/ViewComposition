@@ -5,7 +5,7 @@
     <h3>@year.Key</h3>
     <ul>
     @foreach (var month in year) {
-    <li>@month.MonthAndYear.ToString("MMMM") - @month.NumberOfDocuments</li>
+    <li><a href='@Model.BasePath/@month.MonthAndYear.ToString("yyyy\\/MM")'>@month.MonthAndYear.ToString("MMMM")</a> - @month.NumberOfDocuments</li>
     }
     </ul>
 }
