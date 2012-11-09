@@ -66,8 +66,8 @@ namespace ViewComposition.Tests.MvcContrib {
 
                 expectedValue = (expectedValue == null ? expectedValue : expectedValue.ToString());
                 var actualValue = routeData.Values.GetValue(name);
-                //actualValue.ShouldEqual(expectedValue, String.Format("Value for parameter {0} did not match. Expected: {1}, actual: {2}", name, expectedValue, actualValue));
-                NUnit.Framework.Assert.AreEqual(expectedValue, actualValue, "Value for parameter {0} did not match. Expected: {1}, actual: {2}", name, expectedValue, actualValue);
+                actualValue.ShouldEqual(expectedValue, String.Format("Value for parameter {0} did not match. Expected: {1}, actual: {2}", name, expectedValue, actualValue));
+                //NUnit.Framework.Assert.AreEqual(expectedValue, actualValue, "Value for parameter {0} did not match. Expected: {1}, actual: {2}", name, expectedValue, actualValue);
             }
 
             return routeData;
@@ -125,7 +125,7 @@ namespace ViewComposition.Tests.MvcContrib {
         public static object GetValue(this RouteValueDictionary routeValues, string key) {
             foreach (var routeValueKey in routeValues.Keys) {
                 if (string.Equals(routeValueKey, key, StringComparison.InvariantCultureIgnoreCase))
-                    return routeValues[routeValueKey] as string;
+                    return routeValues[routeValueKey].ToString();
             }
 
             return null;

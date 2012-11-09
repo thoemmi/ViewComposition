@@ -38,5 +38,9 @@ namespace ViewComposition.Controllers {
 
             return View(pageModel);
         }
+
+        public ActionResult Archive(string path, int year = 0) {
+            return Index(path);
+        }
     }
 }

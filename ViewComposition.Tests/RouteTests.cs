@@ -17,5 +17,20 @@ namespace ViewComposition.Tests {
         public void HomeIndex() {
             "~/home".ShouldMapTo<PageController>(action => action.Index("home"));
         }
+
+        [Test]
+        public void ArchiveIndex() {
+            "~/home/archive".ShouldMapTo<PageController>(action => action.Archive("home", 0));
+        }
+
+        [Test]
+        public void ArchiveWithYearIndex() {
+            "~/home/archive/2012".ShouldMapTo<PageController>(action => action.Archive("home", 2012));
+        }
+
+        [Test]
+        public void ArchiveWithYearAndMonthIndex() {
+            "~/home/archive/2012/11".ShouldMapTo<PageController>(action => action.Archive("home", 2012));
+        }
     }
 }
