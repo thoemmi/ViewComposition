@@ -12,18 +12,13 @@ namespace ViewComposition {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("favicon.ico");
 
-            //routes.MapRoute(
-            //    name: "archive",
-            //    url: "{path}/archive",
-            //    defaults: new { controller = "Page", action = "Archive" },
-            //    constraints: new { path = new MyRouteContraint() }
-            //);
             routes.Add(new MyRoute());
+
             routes.MapRoute(
-                name: "Default",
-                url: "{*path}",
-                defaults: new { controller = "Page", action = "Index", path = UrlParameter.Optional }
-            );
+                name : "Default",
+                url : "{*path}",
+                defaults : new { controller = "Page", action = "NotFound", path = UrlParameter.Optional }
+                );
         }
 
         private class MyRoute : RouteBase {
@@ -33,16 +28,29 @@ namespace ViewComposition {
                 RouteHandler = routeHandler ?? new MvcRouteHandler();
 
                 _pageInfos = new[] {
-                    new PageInfo{Path = "home", Controller = "Page", Pattern = "archive/{year}", Defaults = new {action = "Archive", year=0}},
-                    //new PageInfo{Path = "home", Controller = "Page", Pattern = "{action}", Defaults = new {action = "Index"}},
-                    new PageInfo{Path = "home", Controller = "Page", Pattern = null, Defaults = new {action = "Index"}},
+                    new PageInfo {
+                        Path = "home",
+                        Controller = "Page",
+                        Pattern = "archive/{year}",
+                        Defaults = new { action = "Archive", year = UrlParameter.Optional }
+                    },
+                    new PageInfo {
+                        Path = "home",
+                        Controller = "Page",
+                        Pattern = null,
+                        Defaults = new { action = "Index" }
+                    },
                 };
             }
 
             private IRouteHandler RouteHandler { get; set; }
 
             private IList<PageInfo> GetPageInfo(string path) {
-                var matchingPageInfos = _pageInfos.Where(pi => path.StartsWith(pi.Path));
+                var matchingPageInfos = _pageInfos.Where(pi => path.StartsWith(pi.Path)).ToList();
+                if (matchingPageInfos.Count == 0) {
+                    return new PageInfo[0];
+                }
+
                 var maxMatchingLength = matchingPageInfos.Max(pi => pi.Path.Length);
                 return matchingPageInfos.Where(pi => pi.Path.Length == maxMatchingLength).ToList();
             }
@@ -98,15 +106,16 @@ namespace ViewComposition {
             public string Pattern { get; set; }
             public object Defaults { get; set; }
 
-            private object _parsedRoute = null;
+            private object _parsedRoute;
+
             public RouteValueDictionary Match(string remainingPath) {
                 if (_parsedRoute == null) {
                     // to get the fully qualified name, we take a known public type and just replace the type
                     var rt = typeof (RouteData).AssemblyQualifiedName.Replace("RouteData", "RouteParser");
                     var routeParserType = Type.GetType(rt);
                     _parsedRoute = routeParserType.InvokeMember("Parse",
-                                                                   BindingFlags.Static | BindingFlags.Public | BindingFlags.InvokeMethod,
-                                                                   null, null, new object[] { Pattern });
+                                                                BindingFlags.Static | BindingFlags.Public | BindingFlags.InvokeMethod,
+                                                                null, null, new object[] { Pattern });
                 }
                 var values = (RouteValueDictionary) _parsedRoute.GetType()
                                                                 .InvokeMember("Match",
@@ -116,8 +125,6 @@ namespace ViewComposition {
                                                                               { remainingPath, new RouteValueDictionary(Defaults) });
                 return values;
             }
-
-
         }
     }
 }
