@@ -62,6 +62,9 @@ namespace ViewComposition.Tests.MvcContrib {
                         expectedValue = Expression.Lambda(methodCall.Arguments[i]).Compile().DynamicInvoke();
                         break;
 
+                    case ExpressionType.Convert:
+                        expectedValue = ((UnaryExpression) methodCall.Arguments[i]).Operand;
+                        break;
                 }
 
                 expectedValue = (expectedValue == null ? expectedValue : expectedValue.ToString());
