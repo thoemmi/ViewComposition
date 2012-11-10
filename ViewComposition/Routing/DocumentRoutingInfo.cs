@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Web.Routing;
+using JetBrains.Annotations;
 
 namespace ViewComposition.Routing {
-    [System.Diagnostics.DebuggerDisplay("Pattern = {Pattern}")]
+    [DebuggerDisplay("Pattern = {Pattern}")]
     public class DocumentRoutingInfo {
         public string Controller { get; set; }
         public string Action { get; set; }
@@ -12,6 +14,8 @@ namespace ViewComposition.Routing {
 
         private object _parsedRoute;
 
+        // ReSharper disable PossibleNullReferenceException
+        [CanBeNull]
         public RouteValueDictionary Match(string remainingPath) {
             if (_parsedRoute == null) {
                 // to get the fully qualified name, we take a known public type and just replace the type
@@ -25,9 +29,9 @@ namespace ViewComposition.Routing {
                                                             .InvokeMember("Match",
                                                                           BindingFlags.Instance | BindingFlags.Public |
                                                                           BindingFlags.InvokeMethod, null, _parsedRoute,
-                                                                          new object[]
-                                                                          { remainingPath, new RouteValueDictionary(Defaults) });
+                                                                          new object[] { remainingPath, new RouteValueDictionary(Defaults) });
             return values;
         }
+        // ReSharper restore PossibleNullReferenceException
     }
 }

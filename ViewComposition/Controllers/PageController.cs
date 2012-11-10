@@ -7,12 +7,10 @@ using ViewComposition.Services;
 
 namespace ViewComposition.Controllers {
     public class PageController : Controller {
-        private readonly IDocumentService _documentService;
         private readonly IPageLayoutService _pageLayoutService;
         private readonly IRendererService _rendererService;
 
-        public PageController(IDocumentService documentService, IPageLayoutService pageLayoutService, IRendererService rendererService) {
-            _documentService = documentService;
+        public PageController(IPageLayoutService pageLayoutService, IRendererService rendererService) {
             _pageLayoutService = pageLayoutService;
             _rendererService = rendererService;
         }
