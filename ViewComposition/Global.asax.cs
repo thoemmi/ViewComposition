@@ -6,6 +6,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using StructureMap;
 using ViewComposition.App_Start;
+using ViewComposition.Routing;
 using ViewComposition.Services;
 
 namespace ViewComposition {
@@ -18,9 +19,9 @@ namespace ViewComposition {
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes, 
-                path => ObjectFactory.Container.GetInstance<IDocumentService>().GetDocument(path),
-                document => new[]{new RouteConfig.DocumentRoutingInfo{ Controller = "Page", Action = "Index"}});
+            RouteConfig.RegisterRoutes(RouteTable.Routes,
+                                       path => ObjectFactory.Container.GetInstance<IDocumentService>().GetDocument(path),
+                                       document => new[] { new DocumentRoutingInfo { Controller = "Page", Action = "Index" } });
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             RavenConfig.Initialize(ObjectFactory.Container);
         }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Web.Routing;
+﻿using System.Web.Routing;
 using NUnit.Framework;
 using ViewComposition.Controllers;
 using ViewComposition.Entities;
+using ViewComposition.Routing;
 using ViewComposition.Tests.MvcContrib;
 
 namespace ViewComposition.Tests {
@@ -15,10 +15,10 @@ namespace ViewComposition.Tests {
             var routes = RouteTable.Routes;
             routes.Clear();
             RouteConfig.RegisterRoutes(routes, path => _doc, doc => new[] {
-                new RouteConfig.DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive/{year}/{month}" },
-                new RouteConfig.DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive/{year}" },
-                new RouteConfig.DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive" },
-                new RouteConfig.DocumentRoutingInfo { Controller = "Page", Action = "Index" }
+                new DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive/{year}/{month}" },
+                new DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive/{year}" },
+                new DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive" },
+                new DocumentRoutingInfo { Controller = "Page", Action = "Index" }
             });
         }
 

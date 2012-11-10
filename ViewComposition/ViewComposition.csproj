@@ -187,6 +187,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Routing\DocumentRoute.cs" />
+    <Compile Include="Routing\DocumentRoutingInfo.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RavenConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
