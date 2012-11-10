@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using ViewComposition.Entities;
 using ViewComposition.Models;
 using ViewComposition.Renderers;
 using ViewComposition.Services;
@@ -16,8 +17,7 @@ namespace ViewComposition.Controllers {
             _rendererService = rendererService;
         }
 
-        public ActionResult Index(string path) {
-            var document = _documentService.GetDocument(path);
+        public ActionResult Index(IDocument document) {
             var layout = _pageLayoutService.GetLayout(document);
 
             var pageModel = new PageModel {
@@ -39,8 +39,8 @@ namespace ViewComposition.Controllers {
             return View(pageModel);
         }
 
-        public ActionResult Archive(string path, int year = 0) {
-            return Index(path);
+        public ActionResult Archive(IDocument document, int? year = null, int? month = null) {
+            return Index(document);
         }
     }
 }

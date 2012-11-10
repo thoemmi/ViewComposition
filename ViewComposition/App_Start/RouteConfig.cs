@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using ViewComposition.Entities;
 
 namespace ViewComposition {
     public class RouteConfig {
-        public static void RegisterRoutes(RouteCollection routes) {
+        public static void RegisterRoutes(RouteCollection routes, Func<string, IDocument> getDocumentForPath, Func<IDocument, IList<DocumentRoutingInfo>> getRoutingInfosForDocument) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("favicon.ico");
 
-            routes.Add(new MyRoute());
+            routes.Add(new DocumentRoute {
+                GetDocumentForPath = getDocumentForPath,
+                GetRoutingInfosForDocument = getRoutingInfosForDocument,
+            });
 
             routes.MapRoute(
                 name : "Default",
@@ -21,71 +24,54 @@ namespace ViewComposition {
                 );
         }
 
-        private class MyRoute : RouteBase {
-            private readonly PageInfo[] _pageInfos;
-
-            public MyRoute(IRouteHandler routeHandler = null) {
+        private class DocumentRoute : RouteBase {
+            public DocumentRoute(IRouteHandler routeHandler = null) {
                 RouteHandler = routeHandler ?? new MvcRouteHandler();
-
-                _pageInfos = new[] {
-                    new PageInfo {
-                        Path = "home",
-                        Controller = "Page",
-                        Pattern = "archive/{year}",
-                        Defaults = new { action = "Archive", year = UrlParameter.Optional }
-                    },
-                    new PageInfo {
-                        Path = "home",
-                        Controller = "Page",
-                        Pattern = null,
-                        Defaults = new { action = "Index" }
-                    },
-                };
             }
+
+            public Func<string, IDocument> GetDocumentForPath;
+            public Func<IDocument, IList<DocumentRoutingInfo>> GetRoutingInfosForDocument;
 
             private IRouteHandler RouteHandler { get; set; }
-
-            private IList<PageInfo> GetPageInfo(string path) {
-                var matchingPageInfos = _pageInfos.Where(pi => path.StartsWith(pi.Path)).ToList();
-                if (matchingPageInfos.Count == 0) {
-                    return new PageInfo[0];
-                }
-
-                var maxMatchingLength = matchingPageInfos.Max(pi => pi.Path.Length);
-                return matchingPageInfos.Where(pi => pi.Path.Length == maxMatchingLength).ToList();
-            }
 
             public override RouteData GetRouteData(HttpContextBase httpContext) {
                 // Parse incoming URL (we trim off the first two chars since they're always "~/")
                 string requestPath = httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2) + httpContext.Request.PathInfo;
 
-                var pageInfos = GetPageInfo(requestPath);
+                var document = GetDocumentForPath(requestPath);
+                if (document == null) {
+                    return null;
+                }
+
+                var pageInfos = GetRoutingInfosForDocument(document);
                 if (pageInfos == null || pageInfos.Count == 0) {
                     return null;
                 }
 
-                var remainingPath = requestPath.Substring(pageInfos[0].Path.Length);
+                var remainingPath = requestPath.Substring((document.Path ?? String.Empty).Length);
                 if (remainingPath.StartsWith("/")) {
                     remainingPath = remainingPath.Substring(1);
                 }
 
                 RouteValueDictionary values = null;
-                PageInfo pageInfo = null;
+                DocumentRoutingInfo documentRoutingInfo = null;
                 foreach (var pi in pageInfos) {
                     values = pi.Match(remainingPath);
                     if (values != null) {
-                        pageInfo = pi;
+                        documentRoutingInfo = pi;
                         break;
                     }
                 }
 
-                if (pageInfo == null) {
+                if (documentRoutingInfo == null) {
                     return null;
                 }
 
                 var routeData = new RouteData(this, RouteHandler);
-                routeData.Values.Add("controller", pageInfo.Controller);
-                routeData.Values.Add("path", pageInfo.Path);
+                routeData.Values.Add("controller", documentRoutingInfo.Controller);
+                routeData.Values.Add("action", documentRoutingInfo.Action);
+                routeData.Values.Add("path", document.Path);
+                routeData.Values.Add("document", document);
                 if (values != null) {
                     foreach (var value in values) {
                         routeData.Values.Add(value.Key, value.Value);
@@ -100,9 +86,9 @@ namespace ViewComposition {
             }
         }
 
-        private class PageInfo {
-            public string Path { get; set; }
+        public class DocumentRoutingInfo {
             public string Controller { get; set; }
+            public string Action { get; set; }
             public string Pattern { get; set; }
             public object Defaults { get; set; }
 
