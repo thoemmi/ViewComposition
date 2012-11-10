@@ -30,7 +30,7 @@ namespace ViewComposition.Services {
             }
 
             var document = query.Take(1).FirstOrDefault();
-            return document ?? new Document{ Title = "Not found", Body = "Could not find the document at path " + path };
+            return document;
         }
     }
 }

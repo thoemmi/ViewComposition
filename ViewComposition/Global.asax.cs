@@ -21,7 +21,12 @@ namespace ViewComposition {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes,
                                        path => ObjectFactory.Container.GetInstance<IDocumentService>().GetDocument(path),
-                                       document => new[] { new DocumentRoutingInfo { Controller = "Page", Action = "Index" } });
+                                       document => new[] {
+                                           new DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive/{year}/{month}" },
+                                           new DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive/{year}" },
+                                           new DocumentRoutingInfo { Controller = "Page", Action = "Archive", Pattern = "archive" },
+                                           new DocumentRoutingInfo { Controller = "Page", Action = "Index" }
+                                       });
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             RavenConfig.Initialize(ObjectFactory.Container);
         }

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Web.Routing;
 
 namespace ViewComposition.Routing {
+    [System.Diagnostics.DebuggerDisplay("Pattern = {Pattern}")]
     public class DocumentRoutingInfo {
         public string Controller { get; set; }
         public string Action { get; set; }
